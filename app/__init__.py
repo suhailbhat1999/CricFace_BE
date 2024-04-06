@@ -6,16 +6,16 @@ from flask_jwt_extended import JWTManager
 from app.config import DevelopmentConfig
 
 db = SQLAlchemy()
+
+
 def create_app():
     app = Flask(__name__)
-    # app.config.from_object(DevelopmentConfig)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///grocery_db.sqlite3'
+    app.config.from_object(DevelopmentConfig)
     CORS(app, resources={r"*": {"origins": "*"}})
 
     JWTManager(app)
     db.init_app(app)
-    Migrate(app, db) 
+    Migrate(app, db)
     app.app_context().push()
     # Additional app setup code here
     return app
-

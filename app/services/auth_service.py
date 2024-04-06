@@ -9,7 +9,6 @@ class AuthService:
             user = "admin" #User.query.filter_by(email = email).first()
             password = "admin"
             if user == "admin" and password == "admin":
-                print("Login sucessfjull")
             if user:
                 return {
                     # "email": user.email,

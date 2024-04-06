@@ -6,3 +6,7 @@ def build_cors_preflight_response():
     response.headers.add('Access-Control-Allow-Headers', "*")
     response.headers.add('Access-Control-Allow-Methods', "*")
     return response
+
+
+def save_image(image_data, product_id, primary_image= False):
+    pass
