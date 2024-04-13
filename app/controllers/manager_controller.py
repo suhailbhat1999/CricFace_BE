@@ -60,7 +60,6 @@ def upload_image(prod_id):
 
         os.makedirs(folder_path, exist_ok=True)
         if 'file' not in request.files:
-            print("file not available")
             return jsonify({'error': 'No file part'}), 400
 
         file = request.files['file']
@@ -70,7 +69,6 @@ def upload_image(prod_id):
         filename = file.filename
         file_path = os.path.join(folder_path, filename)
         file.save(file_path)
-        print("file saved successfully")
         # Return success message
         return jsonify({'message': 'File uploaded successfully', 'filename': filename}), 200
 

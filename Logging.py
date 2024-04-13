@@ -37,4 +37,4 @@ formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s', "%Y-%m-%d
 hdlr_uploader.setFormatter(formatter)
 logger.addHandler(hdlr_uploader)
 logger.setLevel(log_level)
-logger.debug('Logger Initialized')
+logger.debug('Logger Initialized \n')
