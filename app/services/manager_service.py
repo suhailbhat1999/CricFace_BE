@@ -1,5 +1,6 @@
 import logging
-
+import os.path
+import shutil
 from app.models.product import Products, Orders
 from Logging import logger
 from app import db
@@ -55,17 +56,56 @@ class ManagerService:
         except Exception as e:
             logger.exception(f"Error while editing the order : {e}")
 
-    @staticmethod
-    def delete_product(product_id):
+    def delete_product(self, product_id):
         try:
             product = Products.query.filter_by(product_id=product_id).first()
             if product:
                 db.session.delete(product)
                 db.session.commit()
+                self.del_prod_details(product_id)
                 return True
             return False
         except Exception as e:
             logger.exception(f"Error while deleting the product with product id : {product_id} : {e}")
+
+    def del_prod_details(self, id):
+        folder_path = os.path.join("assets/images", str(id))
+        try:
+            # Delete the folder and its contents
+            if os.path.exists(folder_path):
+                shutil.rmtree(folder_path)
+                logger.info(f"Folder '{folder_path}' deleted successfully.")
+        except OSError as e:
+            logger.exception(f"Error while deleting the folder : {folder_path} : {e.strerror}")
+
+
+    def delete_image(self, id, image_name=None, is_primary=False):
+        if is_primary:
+            folder_path = os.path.join("assets/images/", str(id), "pri_image")
+            try:
+                # List all files in the folder
+                files = os.listdir(folder_path)
+
+                # Iterate through each file and remove it
+                for file_name in files:
+                    file_path = os.path.join(folder_path, file_name)
+                    if os.path.isfile(file_path):
+                        os.remove(file_path)
+                        logger.info(f"File '{file_path}' removed successfully.")
+                        return True
+            except OSError as e:
+                logger.exception(f"Error while deleting the image in path {folder_path} : {e.strerror}")
+                return False
+        else:
+            image_path = os.path.join("assets/images/", str(id), "sec_images", image_name)
+            try:
+                if os.path.isfile(image_path):
+                    os.remove(image_path)
+                    logger.info(f"File {image_name} removed successfully")
+                    return True
+            except Exception as e:
+                logger.exception(f"Error while deleting the image with path {image_path} : {e}")
+                return False
 
     @staticmethod
     def get_all_orders():
