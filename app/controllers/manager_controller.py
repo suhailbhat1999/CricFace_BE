@@ -64,7 +64,7 @@ def upload_image(prod_id):
 
         file = request.files['file']
         if file.filename == '':
-            return jsonify({'error': 'No selected file'}), 400
+            return jsonify({'Error': 'No selected file'}), 400
 
         filename = file.filename
         file_path = os.path.join(folder_path, filename)
