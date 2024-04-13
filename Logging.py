@@ -1,7 +1,7 @@
 """
 Logger Module
 """
-__author__ = 'H115-125'
+__author__ = '123'
 __version__ = 'V 6.0.0'
 
 # -----------------Start of Import statements------------------------ #
