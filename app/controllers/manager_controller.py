@@ -213,7 +213,7 @@ def update_order(order_id):
             logger.info(f"Order details updated with status: {status}")
             return {"message": f"Successfully updated the order with order id: {order_id}", "status": "Success"}, 200
 
-        logger.warning(f"Something went wrong while updating order with order id {order_id}.")
+        logger.warning(f"Something went wrong while updating the order with order id {order_id}.")
         return {"message": "Something went wrong", "status": "Failed"}, 500
 
     except Exception as e:
