@@ -65,7 +65,6 @@ def upload_image(prod_id):
         file = request.files['file']
         if file.filename == '':
             return jsonify({'Error': 'No selected file'}), 400
-
         filename = file.filename
         file_path = os.path.join(folder_path, filename)
         file.save(file_path)
@@ -79,9 +78,21 @@ def upload_image(prod_id):
 # upload_image(prod_id=123, is_primary=True)
 
 
+@jwt_required()
+def get_product_details(prod_id):
+    try:
+        userId = get_jwt_identity()
+        products = manager_service.fetch_prod_details(prod_id)
+        if products:
+            logger.info(f"Product details fected for product id {prod_id} ")
+            return {"data": products, "status": "Success"}, 200
+        return {"data": [], "status": "Failed"}
+    except Exception as e:
+        logger.exception(f"Error while fetching  product details for prod id {prod_id} : {e}")
+        return {"message": "Something went wrong"}, 500
 
 @jwt_required()
-def update_product():
+def update_product(prod_id):
     try:
         # Uncomment for JWT token authentication
         userId = get_jwt_identity()
@@ -137,10 +148,10 @@ def delete_product(product_id):
         return {"message": "Something went wrong", "status": "Failed"}, 500
 
 
-@jwt_required()
+# @jwt_required()
 def get_all_orders():
     try:
-        userId = get_jwt_identity()
+        # userId = get_jwt_identity()
         logger.info("Fetching order details for Admin.")
         orders = manager_service.get_all_orders()
         logger.info("Order details fetched successfully.")

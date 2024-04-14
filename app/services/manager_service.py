@@ -26,6 +26,24 @@ class ManagerService:
         return res
 
     @staticmethod
+    def fetch_prod_details(prod_id):
+        res = {}
+        try:
+            manager_products = Products.query.all()
+            print("mana",prod_id, list(manager_products))
+            product = Products.query.filter_by(product_id=prod_id).first()
+            if product:
+                res["name"] = product.name
+                res["product_id"] = product.product_id
+                res["rate"] = product.rate
+                res["desc"] = product.desc
+                print(res, "yes")
+            # print("prod id by prod id :", list(product))
+
+        except Exception as e:
+            logger.exception(f"Error while fetching the products : {e}")
+        return res
+    @staticmethod
     def add_new_product(data):
         try:
             new_product = Products(name=data["name"], rate=data["rate"], desc=data["desc"])
