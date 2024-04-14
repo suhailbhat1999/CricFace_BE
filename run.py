@@ -15,4 +15,4 @@ if __name__ == '__main__':
     try:
         app.run(debug=True, host='127.0.0.1', port=5001)
     except Exception as e:
-        logger.exception(f"Error while hosting the app : {e}")
+        logger.exception(f"Error while hosting app : {e}")
